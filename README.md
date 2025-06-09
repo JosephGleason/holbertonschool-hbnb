@@ -1,9 +1,29 @@
-# HBnB Part 1: UML Technical Documentation
+# HBnB Part 1 – Technical Documentation
 
-This document contains the technical design and system architecture for the HBnB Evolution project.
+Welcome to the battle plan of HBnB — a  chaotic, AirBnB-inspired housing app designed with a Tom Cruise in The Last Samurai mentality.
 
-To view the full documentation with diagrams and explanations, click the link below:
+This is **Part 1** of the project, where we don’t code yet (thank god), but instead plan everything like responsible software engineers
 
- [View the documentation here](https://docs.google.com/document/d/1L2x4a0NoOBENj2hHtpS8h6y0a2F0a1vKaW-aN8AmyqM/edit?usp=sharing)
+## 📚 What’s in this document?
 
-If the link doesn’t work, contact the repo Broseph
+- A high-level architecture diagram 
+- A class diagram with real Python-flavored logic (User, Place, Review, Amenity)
+- Four sequence diagrams showing what happens when users click buttons
+- Explanations that probably started serious and got weird around diagram #3
+
+## 🔗 The Actual Documentation
+
+You can view the full technical doc (with all diagrams and beginner explanations) here:
+
+👉 [View the Google Doc](https://docs.google.com/document/d/1L2x4a0NoOBENj2hHtpS8h6y0a2F0a1vKaW-aN8AmyqM/edit?usp=sharing)
+
+> ⚠️ If you can't open the doc contact Broseph
+
+## 🎓 About This Repo
+
+This repo is part of the Holberton School project **HBnB Evolution**.  
+You can find the rest of the app (and hopefully working code) in future parts of this repository. For now, enjoy the pretty pictures.
+
+---
+
+Thanks for visiting.
