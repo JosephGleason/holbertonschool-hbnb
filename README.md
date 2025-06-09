@@ -1,6 +1,6 @@
 # HBnB Part 1 – Technical Documentation
 
-Welcome to the battle plan of HBnB — a  chaotic, AirBnB-inspired housing app designed with "Tom Cruise in The Last Samurai" energy.
+Welcome to the battle plan of HBnB — a  chaotic, AirBnB-inspired housing app designed with "Tom Cruise in The Last Samurai" energy. 🗡️
 
 This is **Part 1** of the project, where we don’t code yet (thank god), but instead plan everything like responsible software engineers
 
