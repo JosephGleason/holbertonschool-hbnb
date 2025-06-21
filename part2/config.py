@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 
-
 import os
 
-class Config:
+class Config: # settings for all environ
     """Base config class"""
-    SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')
+    # get an environment variable. if missing use default.
+    SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key') #
     DEBUG = False
 
 
-class DevelopmentConfig(Config):
+class DevelopmentConfig(Config): # turns on debug mode
     """Development config settings"""
     DEBUG = True
 
