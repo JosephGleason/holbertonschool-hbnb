@@ -111,7 +111,6 @@ To run tests, use:
 ```bash
 PYTHONPATH=. python3 tests/test_user.py
 PYTHONPATH=. python3 tests/test_place.py
-PYTHONPATH=. python3 tests/test_review.py
 PYTHONPATH=. python3 tests/test_amenity.py
 ```
 
