@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """Facade: Manages logic between API and Models for all resources."""
+from app.models.place import Place
+from app.models.amenity import Amenity
 from app.models.user import User
 from app.persistence.repository import InMemoryRepository
 
@@ -38,7 +40,7 @@ class HBnBFacade: #new class for facade
 
     def get_all_users(self):
         """Return list of all users"""
-        return self.user_repo.all() #all:method from InMemoryRepository that returns all stored objects
+        return self.user_repo.get_all() #all:method from InMemoryRepository that returns all stored objects
     
     def update_user(self, user_id, user_data):
         """
@@ -58,9 +60,114 @@ class HBnBFacade: #new class for facade
         user.first_name = user_data['first_name']
         user.last_name = user_data['last_name']
         user.email = user_data['email']
-        self.user_repo.update(user_id, user)
+        self.user_repo.update(user_id, user_data)
         return user
 
-    # Placeholder method for fetching a place by ID
+    def create_amenity(self, amenity_data):
+        """
+        Creates an Amenity instance from the input dictionary
+        """
+        amenity = Amenity(**amenity_data) # take keys from the dictionary and maps them to parameters
+        self.amenity_repo.add(amenity) #stores the object inside the fake database
+        return amenity
+
+    def get_amenity(self, amenity_id):
+        """
+        Retrieves a single amenity by its unique ID.
+        Returns the Amenity object or None if not found.
+        """
+        return self.amenity_repo.get(amenity_id)
+
+    def get_all_amenities(self):
+        """
+        Returns a list of all Amenity objects currently stored.
+        """
+        return self.amenity_repo.get_all()
+
+    def update_amenity(self, amenity_id, amenity_data):
+        """
+        Updates an existing Amenity by ID with the given new data.
+        """
+        amenity = self.amenity_repo.get(amenity_id)
+        if not amenity:
+            return None  # Amenity not found
+
+        new_name = amenity_data.get('name')
+        if not isinstance(new_name, str) or not new_name.strip():
+            raise ValueError("Amenity name must be a non-empty string")
+        if len(new_name) > 50:
+            raise ValueError("Amenity name must be at most 50 characters")
+
+        amenity.name = new_name.strip()
+        self.amenity_repo.update(amenity_id, {"name": amenity.name})
+        return amenity
+    
+    def create_place(self, place_data):
+        """
+        Creates a Place object with validated owner and amenities.
+        """
+
+        # Validate owner
+        owner = self.user_repo.get(place_data.get("owner_id"))
+        if not owner:
+            raise ValueError("Owner not found")
+
+        # Validate amenities
+        amenities = []
+        for amenity_id in place_data.get("amenities", []):
+            amenity = self.amenity_repo.get(amenity_id)
+            if not amenity:
+                raise ValueError(f"Amenity ID {amenity_id} not found")
+            amenities.append(amenity)
+
+        # Build Place (this will auto-validate title, price, lat/lng)
+        place = Place(
+            title=place_data["title"],
+            description=place_data.get("description", ""),
+            price=place_data["price"],
+            latitude=place_data["latitude"],
+            longitude=place_data["longitude"],
+            owner=owner
+        )
+
+        # Add amenities to place
+        for amenity in amenities:
+            place.add_amenity(amenity)
+
+        # Save to memory
+        self.place_repo.add(place)
+        return place
+
+
     def get_place(self, place_id):
+        """
+        Retrieves a place by ID, including owner and amenities.
+        Returns None if not found.
+        """
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None
+        
+        owner = place.owner
+        owner_data = {
+            "id": owner.id,
+            "first_name": owner.first_name,
+            "last_name": owner.last_name,
+            "email": owner.email
+        }
+        
+        amenities_data = []
+        for amenity in place.amenities:
+            amenities_data.append({
+                "id": amenity.id,
+                "name": amenity.name
+            })
+
+
+    def get_all_places(self):
+        # Placeholder for logic to retrieve all places
+        pass
+
+    def update_place(self, place_id, place_data):
+        # Placeholder for logic to update a place
         pass
