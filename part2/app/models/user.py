@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from app.models.base import BaseModel #imports id, created,update, and update methods
+from app.models.base_model import BaseModel #imports id, created,update, and update methods
 import re #regular expression module. validate proper email format
 
 class User(BaseModel):
