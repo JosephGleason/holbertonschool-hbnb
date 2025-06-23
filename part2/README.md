@@ -1,3 +1,4 @@
+```markdown
 # HBnB - Part 2: Business Logic and API
 
 Welcome to the backend engine of the HBnB app.
@@ -23,31 +24,43 @@ hbnb/
 
 1. Install dependencies:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
 2. Run the application:
 
-```
+```bash
 python3 run.py
 ```
 
 3. Access the Swagger UI at:
 
+```bash
+http://localhost:5000/api/v1/
+```
+
+## YAML (Swagger Specification)
+
+Flask-RESTx automatically generates Swagger-compliant API docs.
+
+The OpenAPI YAML schema includes:
+- Path operations (`/users/`, `/places/`, etc.)
+- Parameter types and validations
+- Response models and status codes
+
+This documentation is viewable at:
 ```
 http://localhost:5000/api/v1/
 ```
 
-Note: At this stage, no routes are functional yet. Swagger UI will load but show no endpoints.
-
 ## Key Concepts
 
-- Flask: A lightweight Python web framework used to build web applications and APIs.
-- Flask-RESTx: An extension for Flask that helps build and document RESTful APIs with less effort.
-- Facade Pattern: A design pattern used to simplify the communication between the API layer and the business logic.
-- In-memory Repository: A temporary, fake data storage layer that simulates how a database will work in Part 3.
-- Modular Design: Keeping each part of the application in its own separate module (API, logic, persistence, etc.).
+- **Flask**: Lightweight Python web framework used to build web apps and APIs.
+- **Flask-RESTx**: Extension for Flask that helps build/document RESTful APIs.
+- **Facade Pattern**: Simplifies communication between API and business logic.
+- **In-memory Repository**: A fake database layer for temporary storage.
+- **Modular Design**: Each part of the application (API, models, services) is separated into its own module for clarity and reusability.
 
 ---
 
@@ -60,8 +73,8 @@ All entities inherit from a shared `BaseModel` class and are located in the `app
 - `id`: String (UUID)
 - `created_at`: datetime
 - `updated_at`: datetime
-- `save()`: updates the `updated_at` timestamp
-- `update(data_dict)`: bulk updates attributes from a dictionary
+- `save()`: updates `updated_at`
+- `update(data_dict)`: bulk updates fields
 
 ### User
 
@@ -75,8 +88,8 @@ All entities inherit from a shared `BaseModel` class and are located in the `app
 - `title`: string (max 100), required
 - `description`: string (optional)
 - `price`: float, must be ≥ 0
-- `latitude`: float, must be between -90.0 and 90.0
-- `longitude`: float, must be between -180.0 and 180.0
+- `latitude`: float, -90.0 ≤ x ≤ 90.0
+- `longitude`: float, -180.0 ≤ x ≤ 180.0
 - `owner`: User instance (required)
 - `reviews`: list of Review instances
 - `amenities`: list of Amenity instances
@@ -84,7 +97,7 @@ All entities inherit from a shared `BaseModel` class and are located in the `app
 ### Review
 
 - `text`: string, required
-- `rating`: integer (1 to 5), required
+- `rating`: integer (1–5), required
 - `place`: Place instance, required
 - `user`: User instance, required
 
@@ -96,23 +109,65 @@ All entities inherit from a shared `BaseModel` class and are located in the `app
 
 ## Relationships
 
-- **User → Place**: A user can own many places (one-to-many).
-- **Place → Review**: A place can have many reviews (one-to-many).
-- **Place → Amenity**: A place can have many amenities (many-to-many, simulated via list).
+- **User → Place**: A user can own multiple places (1-to-many).
+- **Place → Review**: A place can have multiple reviews.
+- **Place → Amenity**: Many-to-many (stored as list references).
 
 ---
 
 ## Running Tests
 
-Unit tests are located in the `tests/` directory.
+Unit tests are in the `tests/` directory.
 
-To run tests, use:
+To run all tests:
+
+```bash
+PYTHONPATH=. python3 -m unittest discover tests/
+```
+
+Or individually:
 
 ```bash
 PYTHONPATH=. python3 tests/test_user.py
 PYTHONPATH=. python3 tests/test_place.py
 PYTHONPATH=. python3 tests/test_amenity.py
+PYTHONPATH=. python3 tests/test_endpoints.py
 ```
+
+---
+
+## Example Manual Tests with cURL
+
+### Create a User
+```bash
+curl -X POST http://127.0.0.1:5000/api/v1/users/ \
+  -H "Content-Type: application/json" \
+  -d '{"first_name": "Alice", "last_name": "Walker", "email": "alice@example.com"}'
+```
+
+### Get All Users
+```bash
+curl http://127.0.0.1:5000/api/v1/users/
+```
+
+### Update User
+```bash
+curl -X PUT http://127.0.0.1:5000/api/v1/users/<user_id> \
+  -H "Content-Type: application/json" \
+  -d '{"first_name": "Updated", "last_name": "Name", "email": "updated@example.com"}'
+```
+
+---
+
+## Manual Validation Guide
+
+For manual QA reviewers:
+
+- All endpoints return `200`, `201`, `400`, or `404` with proper JSON responses
+- Swagger UI (`/api/v1/`) loads all resources and documents input/output clearly
+- POST validation errors produce informative messages (e.g., missing fields, bad email)
+- All relationships are nested correctly (e.g., `place.reviews`, `place.amenities`)
+- DELETE is implemented only for `/reviews/<id>`
 
 ---
 
@@ -120,5 +175,6 @@ PYTHONPATH=. python3 tests/test_amenity.py
 
 Written by:
 
-Joseph Gleason  
-Holberton School  
+**Joseph Gleason**  
+Holberton School
+```
