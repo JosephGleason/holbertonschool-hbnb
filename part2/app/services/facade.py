@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Facade: Manages logic between API and Models for all resources."""
+from app.models.review import Review
 from app.models.place import Place
 from app.models.amenity import Amenity
 from app.models.user import User
@@ -13,16 +14,18 @@ class HBnBFacade: #new class for facade
         self.amenity_repo = InMemoryRepository()
 
     # Placeholder method for creating a user
-    def create_user(self, user_data):
-        """
-        Creates a User instance from provided data.
-        Validates using the User constructor.
-        Stores in the in-memory repository.
-        """
-        user = User(**user_data) # take keys from the dictionary and maps them to parameters
-        self.user_repo.add(user) #stores the object inside the fake database
+    def create_user(self, data):
+        try:
+            user = User(**data)
+        except ValueError as e:
+            raise ValueError("Invalid input data")
+
+        if self.get_user_by_email(user.email):
+            raise ValueError("Email already registered")
+
+        self.user_repo.add(user)
         return user
-    
+
     def get_user(self, user_id):
         """
         Looks up a user by UUID.
@@ -230,3 +233,125 @@ class HBnBFacade: #new class for facade
 
         return place
 
+    def create_review(self, review_data):
+        """
+        Creates a Review object after validating user, place, and rating.
+        """
+        # Check required fields
+        text = review_data.get("text")
+        rating = review_data.get("rating")
+        user_id = review_data.get("user_id")
+        place_id = review_data.get("place_id")
+
+        if not text or not isinstance(text, str):
+            raise ValueError("Review text must be a non-empty string")
+
+        if not isinstance(rating, int) or not (1 <= rating <= 5):
+            raise ValueError("Rating must be an integer between 1 and 5")
+
+        user = self.user_repo.get(user_id)
+        if not user:
+            raise ValueError("User not found")
+
+        place = self.place_repo.get(place_id)
+        if not place:
+            raise ValueError("Place not found")
+
+        # Create review
+        review = Review(text=text, rating=rating, user=user, place=place)
+        self.review_repo.add(review)
+        return review
+
+    def get_review(self, review_id):
+        """
+        Retrieves a single review by its ID.
+        Returns None if not found.
+        """
+        review = self.review_repo.get(review_id)
+        if not review:
+            return None
+
+        return {
+            "id": review.id,
+            "text": review.text,
+            "rating": review.rating,
+            "user_id": review.user.id,
+            "place_id": review.place.id
+        }
+
+    def get_all_reviews(self):
+        """
+        Returns a list of all reviews with basic information.
+        """
+        reviews = self.review_repo.get_all()
+        return [
+            {
+                "id": review.id,
+                "text": review.text,
+                "rating": review.rating,
+                "user_id": review.user.id,
+                "place_id": review.place.id
+            }
+            for review in reviews
+        ]
+
+    def update_review(self, review_id, review_data):
+        """
+        Updates an existing review's text and rating after validation.
+        """
+        review = self.review_repo.get(review_id)
+        if not review:
+            return None  # Not found
+
+        # Optional: update text
+        if "text" in review_data:
+            text = review_data["text"]
+            if not isinstance(text, str) or not text.strip():
+                raise ValueError("Review text must be a non-empty string")
+            review.text = text.strip()
+
+        # Optional: update rating
+        if "rating" in review_data:
+            rating = review_data["rating"]
+            if not isinstance(rating, int) or not (1 <= rating <= 5):
+                raise ValueError("Rating must be an integer between 1 and 5")
+            review.rating = rating
+
+        # Update storage (optional if object is mutable)
+        self.review_repo.update(review_id, {
+            "text": review.text,
+            "rating": review.rating
+        })
+
+        return review
+
+    def delete_review(self, review_id):
+        """
+        Deletes a review by ID.
+        Returns True if successful, False if not found.
+        """
+        review = self.review_repo.get(review_id)
+        if not review:
+            return False
+
+        self.review_repo.delete(review_id)
+        return True
+
+    def get_reviews_by_place(self, place_id):
+        """
+        Returns a list of all reviews for a specific place.
+        """
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None  # Place not found
+
+        reviews = self.review_repo.get_all()
+        return [
+            {
+                "id": review.id,
+                "text": review.text,
+                "rating": review.rating,
+                "user_id": review.user.id
+            }
+            for review in reviews if review.place.id == place_id
+        ]
