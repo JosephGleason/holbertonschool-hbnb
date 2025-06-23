@@ -13,6 +13,7 @@ hbnb/
 │   ├── models/           # Core business logic classes (User, Place, etc.)
 │   ├── services/         # Facade layer (connects API and models)
 │   └── persistence/      # In-memory storage (acts like a fake database)
+├── tests/
 ├── run.py                # Entry point to run the Flask app
 ├── config.py             # Config settings (e.g., debug mode)
 ├── requirements.txt      # Python dependencies
