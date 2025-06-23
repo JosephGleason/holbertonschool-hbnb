@@ -1,4 +1,3 @@
-```markdown
 # HBnB - Part 2: Business Logic and API
 
 Welcome to the backend engine of the HBnB app.
