@@ -163,11 +163,70 @@ class HBnBFacade: #new class for facade
                 "name": amenity.name
             })
 
+        return {
+            "id": place.id,
+            "title": place.title,
+            "description": place.description,
+            "price": place.price,
+            "latitude": place.latitude,
+            "longitude": place.longitude,
+            "owner": owner_data,
+            "amenities": amenities_data
+        }
 
     def get_all_places(self):
-        # Placeholder for logic to retrieve all places
-        pass
+        """
+        Retrieves a list of all places with basic location info.
+        """
+        places = self.place_repo.get_all()
+        return [
+            {
+                "id": place.id,
+                "title": place.title,
+                "latitude": place.latitude,
+                "longitude": place.longitude
+            }
+            for place in places
+        ]
 
     def update_place(self, place_id, place_data):
-        # Placeholder for logic to update a place
-        pass
+        """
+        Updates a place by ID with minimal required validation.
+        """
+        place = self.place_repo.get(place_id)
+        if not place:
+            return None
+
+        # Validate and update price
+        if "price" in place_data:
+            price = place_data["price"]
+            if not isinstance(price, (int, float)) or price < 0:
+                raise ValueError("Price must be a non-negative number")
+            place.price = float(price)
+
+        # Validate and update latitude
+        if "latitude" in place_data:
+            lat = place_data["latitude"]
+            if not isinstance(lat, (int, float)) or not -90 <= lat <= 90:
+                raise ValueError("Latitude must be between -90 and 90")
+            place.latitude = float(lat)
+
+        # Validate and update longitude
+        if "longitude" in place_data:
+            lon = place_data["longitude"]
+            if not isinstance(lon, (int, float)) or not -180 <= lon <= 180:
+                raise ValueError("Longitude must be between -180 and 180")
+            place.longitude = float(lon)
+
+        # Validate and update amenities
+        if "amenities" in place_data:
+            new_amenities = []
+            for amenity_id in place_data["amenities"]:
+                amenity = self.amenity_repo.get(amenity_id)
+                if not amenity:
+                    raise ValueError(f"Amenity ID {amenity_id} not found")
+                new_amenities.append(amenity)
+            place.amenities = new_amenities
+
+        return place
+
