@@ -27,33 +27,25 @@ This is Part 3 of the HBnB project, extending the RESTful API with secure authen
 
 ## 📂 Project Structure
 
-part3/
-├── app/
-│ ├── api/
-│ │ └── v1/
-│ │ ├── auth.py
-│ │ ├── users.py
-│ │ ├── places.py
-│ │ ├── reviews.py
-│ │ └── amenities.py
-│ ├── models/
-│ │ ├── base_model.py
-│ │ ├── user.py
-│ │ ├── place.py
-│ │ ├── review.py
-│ │ └── amenity.py
-│ └── services/
-│ └── facade.py
-├── diagrams/
-│ └── er_diagram.png
-├── schema.sql
-├── data.sql
-├── config.py
-└── app/init.py
-
-yaml
+<details> <summary><strong>Click to expand project layout</strong></summary>
+plaintext
 Copy
 Edit
+part3/
+├── app/
+│   ├── __init__.py
+│   ├── models/
+│   ├── api/
+│   └── services/
+├── sql/
+│   ├── schema.sql
+│   └── data.sql
+├── diagrams/
+│   └── er_diagram.png
+├── test.db
+├── README.md
+└── ...
+</details>
 
 ---
 
