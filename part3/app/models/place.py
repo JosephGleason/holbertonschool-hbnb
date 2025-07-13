@@ -1,53 +1,43 @@
 #!/usr/bin/python3
 
+from app import db
 from app.models.base_model import BaseModel
+from sqlalchemy.orm import validates
+
+place_amenity = db.Table('place_amenity',
+    db.Column('place_id', db.String(36), db.ForeignKey('places.id'), primary_key=True),
+    db.Column('amenity_id', db.String(36), db.ForeignKey('amenities.id'), primary_key=True)
+)
 
 class Place(BaseModel):
-    def __init__(self, title, description=None, price=0.0,
-                 latitude=0.0, longitude=0.0, owner=None):
-        super().__init__() #calls the constructor of the parent class
-        
-        #validate title
-        if not title or len(title) > 100: #check if empty or None
-            raise ValueError("title is required and must be at most 100 characters")
-        self.title = title
-        
-        #if a description was passed and is not empty use it
-        self.description = description if description else ""
-         
-        #validate price
-        if not isinstance(price, (int, float)) or price < 0:
-            raise ValueError("price must be a positive number")
-        self.price = float(price)
-        
-        #validtate latitude
-        if not isinstance(latitude, (int, float)) or not -90.0 <= latitude <= 90.0:
-            raise ValueError("latitude must be between -90.0 and 90.0")
-        self.latitude = float(latitude)
-        
-        #validate longitude
-        if not isinstance(longitude, (int, float)) or not -180.0 <= longitude <= 180.0:
-            raise ValueError("longitude must be between -180.0 and 180.0")
-        self.longitude = float(longitude)
+    __tablename__ = 'places'
 
-        #validate owner
-        if not owner or not hasattr(owner, 'id'): #catches if no owner was passed in or that has id attrib
-            raise ValueError("owner must be a valid User instance with an id")
-        self.owner = owner
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, default="")
+    price = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+    owner_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    
+    #validates title
+    @validates('title')
+    def validate_title(self, key, value):
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError("Title must be a non-empty string")
+        return value.strip()
+        
+    #validate price, latitude, longitude
+    @validates('price', 'latitude', 'longitude')
+    def validate_floats(self, key, value):
+        if not isinstance(value, (float, int)):
+            raise ValueError(f"{key} must be a number")
+        return float(value)
 
-        self.reviews = []
-        self.amenities = []
+    reviews = db.relationship('Review', backref='place', lazy=True)
 
-    def add_review(self, review):
-        """Add a review to this place"""
-        from app.models.review import Review
-        if not isinstance(review, Review):
-            raise ValueError("Expected a Review")
-        self.reviews.append(review)
-
-    def add_amenity(self, amenity):
-        """Add an amenity to this place"""
-        from app.models.amenity import Amenity
-        if not isinstance(amenity, Amenity):
-            raise ValueError("Expected an Amenity")
-        self.amenities.append(amenity)
+    amenities = db.relationship(
+    'Amenity',
+    secondary=place_amenity,
+    lazy='subquery',
+    backref=db.backref('places', lazy=True)
+)

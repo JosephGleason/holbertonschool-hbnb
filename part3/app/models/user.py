@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-from app import db, bcrypt
+from app import db
+from app import bcrypt
 from app.models.base_model import BaseModel
 from sqlalchemy.orm import validates
 import re
@@ -39,3 +40,6 @@ class User(BaseModel):
     def verify_password(self, password):
         """Checks the password against the stored hash."""
         return bcrypt.check_password_hash(self.password, password)
+
+    places = db.relationship('Place', backref='owner', lazy=True)
+    reviews = db.relationship('Review', backref='user', lazy=True)

@@ -154,3 +154,4 @@ class ReviewToPlace(Resource):
         data = request.get_json()
         data['place_id'] = place_id
         return facade.create_review(data), 201
+api = reviews_ns
