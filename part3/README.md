@@ -27,10 +27,10 @@ This is Part 3 of the HBnB project, extending the RESTful API with secure authen
 
 ## 📂 Project Structure
 
-<details> <summary><strong>Click to expand project layout</strong></summary>
-plaintext
-Copy
-Edit
+<details>
+<summary><strong>Click to expand project layout</strong></summary>
+
+```plaintext
 part3/
 ├── app/
 │   ├── __init__.py
@@ -45,7 +45,7 @@ part3/
 ├── test.db
 ├── README.md
 └── ...
-</details>
+</details> ```
 
 ---
 
