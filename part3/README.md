@@ -75,23 +75,40 @@ part3/
 
 ## 🧪 Testing & Usage
 
-Run Flask with:
+### Run the Flask App
 
 ```bash
 flask run
-Launch the Flask shell:
+```
 
-bash
-Copy
-Edit
+### Launch the Flask Shell
+
+```bash
 flask shell
-To inspect the database (SQLite):
+```
 
-bash
-Copy
-Edit
+### Inspect the SQLite Database
+
+```bash
 sqlite3 test.db
-🗃️ Initial Admin User
+```
+
+Inside the SQLite prompt, you can run SQL commands like:
+
+```sql
+SELECT * FROM users;
+SELECT * FROM places;
+```
+
+### Recreate Database from SQL Files
+
+```bash
+sqlite3 test.db < sql/schema.sql
+sqlite3 test.db < sql/data.sql
+```
+
+
+## 🗃️ Initial Admin User
 Auto-created on startup if not present:
 
 makefile
@@ -101,7 +118,7 @@ Email:    admin@hbnb.com
 Password: admin123
 🖼️ ER Diagram
 
-🛠️ SQL Schema + Seed
+## 🛠️ SQL Schema + Seed
 All tables and initial data can be recreated manually:
 
 bash
@@ -109,7 +126,6 @@ Copy
 Edit
 sqlite3 test.db < schema.sql
 sqlite3 test.db < data.sql
-```
 
 ---
 ## Author
