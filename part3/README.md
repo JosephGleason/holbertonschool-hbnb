@@ -1,6 +1,6 @@
-# 🏠 HBnB - Part 3: API, Authentication & SQLAlchemy
+# HBnB - Part 3: API, Authentication & SQLAlchemy
 
-## 📌 Overview
+## Overview
 
 This is Part 3 of the HBnB project, extending the RESTful API with secure authentication, admin authorization, and SQLAlchemy-based persistence. The goal is to move from in-memory data to a robust database-backed backend with complete access control.
 
@@ -9,23 +9,23 @@ This is Part 3 of the HBnB project, extending the RESTful API with secure authen
 
 ![ER Diagram](./diagrams/diagram.png)
 
-## 🧩 Features
+## Features
 
-- ✅ JWT Authentication (`/api/v1/auth`)
-- ✅ Role-based access control (`is_admin`)
-- ✅ SQLAlchemy models with database persistence
-- ✅ RESTful CRUD routes for:
+-  JWT Authentication (`/api/v1/auth`)
+-  Role-based access control (`is_admin`)
+-  SQLAlchemy models with database persistence
+-  RESTful CRUD routes for:
   - Users
   - Places
   - Amenities
   - Reviews
-- ✅ Admin bootstrap on startup
-- ✅ SQLite for development, MySQL-ready for production
-- ✅ ER diagram visualization with Mermaid.js
+-  Admin bootstrap on startup
+-  SQLite for development, MySQL-ready for production
+-  ER diagram visualization with Mermaid.js
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 <details>
 <summary><strong>Click to expand project layout</strong></summary>
@@ -50,7 +50,7 @@ part3/
 
 ---
 
-## 🔐 Authentication & Authorization
+## Authentication & Authorization
 
 - `POST /api/v1/auth/login`: returns JWT access token
 - Users can:
@@ -61,7 +61,7 @@ part3/
 
 ---
 
-## 🧠 Tech Stack
+## Tech Stack
 
 - **Flask**
 - **SQLAlchemy**
@@ -73,7 +73,7 @@ part3/
 
 ---
 
-## 🧪 Testing & Usage
+## Testing & Usage
 
 ### Run the Flask App
 
@@ -108,7 +108,7 @@ sqlite3 test.db < sql/data.sql
 ```
 
 
-## 🗃️ Initial Admin User
+## Initial Admin User
 Auto-created on startup if not present:
 
 makefile
@@ -116,9 +116,9 @@ Copy
 Edit
 Email:    admin@hbnb.com
 Password: admin123
-🖼️ ER Diagram
+ER Diagram
 
-## 🛠️ SQL Schema + Seed
+## SQL Schema + Seed
 All tables and initial data can be recreated manually:
 
 bash
