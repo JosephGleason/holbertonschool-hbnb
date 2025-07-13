@@ -109,7 +109,9 @@ Copy
 Edit
 sqlite3 test.db < schema.sql
 sqlite3 test.db < data.sql
+```
 
+---
 ## Author
 
 Written by:
