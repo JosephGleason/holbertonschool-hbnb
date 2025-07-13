@@ -15,10 +15,10 @@ This is Part 3 of the HBnB project, extending the RESTful API with secure authen
 -  Role-based access control (`is_admin`)
 -  SQLAlchemy models with database persistence
 -  RESTful CRUD routes for:
-  - Users
-  - Places
-  - Amenities
-  - Reviews
+   - Users
+   - Places
+   - Amenities
+   - Reviews
 -  Admin bootstrap on startup
 -  SQLite for development, MySQL-ready for production
 -  ER diagram visualization with Mermaid.js
