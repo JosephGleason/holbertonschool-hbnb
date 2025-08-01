@@ -17,7 +17,6 @@ holbertonschool-hbnb/
 │   │   └── logo.png
 │   ├── index.html
 │   └── utils/
-│       └── auth.js            # (optional helper for JWT cookies)
 ├── README.md
 └── requirements.txt
 ```
