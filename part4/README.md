@@ -3,7 +3,7 @@
 This is Part 4 of the HBnB project: a simple, single-page web client that interacts with a RESTful backend API (built in Part 3) to allow users to browse and review rental places.
 
 ## Project Structure
-
+``` 
 holbertonschool-hbnb/
 ├── backend/                   # All files from Part 3 (Flask API + Models)
 │   └── ...
@@ -20,7 +20,7 @@ holbertonschool-hbnb/
 │       └── auth.js            # (optional helper for JWT cookies)
 ├── README.md
 └── requirements.txt
-
+```
 ## Features
 
 - Single Page Client for HBnB rentals
@@ -83,8 +83,6 @@ Use the token in the browser's cookies (or inspect via DevTools).
 - [x] Fetch & render places dynamically
 - [x] Render reviews
 - [x] Add review (authenticated)
-- [ ] Add user logout (optional)
-- [ ] Google Maps view (optional)
 
 ## Sample Screenshot
 
