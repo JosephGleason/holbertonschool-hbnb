@@ -1,0 +1,54 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+}
+
+body {
+    background-color: #fff8e1;
+    color: #333333;
+}
+
+header {
+    background-color: #007f91;
+    color: #fff;
+    padding: 1rem;
+}
+
+nav a {
+    color: #ffd166;
+    text-decoration: none;
+    margin-left: 1rem;
+}
+
+main {
+    padding: 2rem;
+}
+
+.place-card,
+.review-card {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+#places-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.place-card {
+  flex: 0 1 calc(30% - 40px); /* 3 cards per row, spacing adjusted */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.logo {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+}
